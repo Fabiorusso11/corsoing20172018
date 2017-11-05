@@ -3,16 +3,16 @@
     color: white;
 }
 
-.student-home {
-    display:flex;
+.teacher-home {
+    display: flex;
 }
 
-.students-list {
+.teachers-list {
     flex:1;
     padding: 5px;
 }
 
-.students-list div {
+.teachers-list div {
     cursor: pointer;
     position: relative;
     left: 0;
@@ -21,23 +21,23 @@
     border-radius: 4px;
 }
 
-.students-list div.selected:hover {
+.teachers-list div.selected:hover {
     background-color: #BBD8DC !important;
     color: white;
 }
 
-.students-list div:hover {
+.teachers-list div:hover {
     color: #607D8B;
     background-color: #DDD;
     left: .1em;
 }
 
-.students-list .text {
+.teachers-list .text {
     position: relative;
     top: -3px;
 }
 
-.students-list .badge {
+.teachers-list .badge {
     display: inline-block;
     font-size: small;
     color: white;
@@ -50,7 +50,7 @@
     border-radius: 4px 0 0 4px;
 }
 
-.student-detail {
+.teacher-detail {
     flex: 1;
     padding: 5px;
 }

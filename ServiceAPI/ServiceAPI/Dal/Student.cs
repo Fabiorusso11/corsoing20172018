@@ -10,23 +10,18 @@ namespace ServiceAPI.Dal
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Insegnamento { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 
     public class Student
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public string Surname { get; set; }
-
         public string BirthPlace { get; set; }
-
-
-        public string RegistrationNumber { get; set; }
-
-        public bool Gender { get; set; } //true male,false female
-
-
+        public string NumeroMatricola { get; set; }
         public DateTime DateOfBirth { get; set; }
     }
 }

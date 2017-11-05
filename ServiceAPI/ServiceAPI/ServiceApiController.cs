@@ -49,12 +49,39 @@ namespace ServiceAPI
             }
         }
 
+        [HttpGet("teachers")]
+        public async Task<IActionResult> GetTeachers()
+        {
+            try
+            {
+                await parallelism.WaitAsync();
+
+                using (var context = new StudentsDbContext())
+                {
+                    return Ok(context.Teachers.ToList());
+                }
+            }
+            finally
+            {
+                parallelism.Release();
+            }
+        }
+
         [HttpGet("student")]
         public async Task<IActionResult> GetStudent([FromQuery]int id)
         {
             using (var context = new StudentsDbContext())
             {
                 return Ok(await context.Students.FirstOrDefaultAsync(x => x.Id == id));
+            }
+        }
+
+        [HttpGet("teacher")]
+        public async Task<IActionResult> GetTeacher([FromQuery]int id)
+        {
+            using (var context = new StudentsDbContext())
+            {
+                return Ok(await context.Teachers.FirstOrDefaultAsync(x => x.Id == id));
             }
         }
 
@@ -71,6 +98,19 @@ namespace ServiceAPI
             }
         }
 
+        [HttpPut("teachers")]
+        public async Task<IActionResult> CreateTeacher([FromBody]Teacher teacher)
+        {
+            using (var context = new StudentsDbContext())
+            {
+                context.Teachers.Add(teacher);
+
+                await context.SaveChangesAsync();
+
+                return Ok();
+            }
+        }
+
         [HttpPost("students")]
         public async Task<IActionResult> UpdateStudent([FromBody]Student student)
         {
@@ -80,8 +120,18 @@ namespace ServiceAPI
                 await context.SaveChangesAsync();
                 return Ok();
             }
-        }   
+        }
 
+        [HttpPost("teachers")]
+        public async Task<IActionResult> UpdateTeacher([FromBody]Teacher teacher)
+        {
+            using (var context = new StudentsDbContext())
+            {
+                context.Teachers.Update(teacher);
+                await context.SaveChangesAsync();
+                return Ok();
+            }
+        }
 
         [HttpDelete("students")]
         public async Task<IActionResult> DeleteStudent([FromQuery]int id)
@@ -92,6 +142,23 @@ namespace ServiceAPI
                 if (student != null)
                 {
                     context.Students.Remove(student);
+                    await context.SaveChangesAsync();
+                }
+                return Ok();
+
+
+            }
+        }
+
+        [HttpDelete("teachers")]
+        public async Task<IActionResult> DeleteTeacher([FromQuery]int id)
+        {
+            using (var context = new StudentsDbContext())
+            {
+                var teacher = await context.Teachers.FirstOrDefaultAsync(x => x.Id == id);
+                if (teacher != null)
+                {
+                    context.Teachers.Remove(teacher);
                     await context.SaveChangesAsync();
                 }
                 return Ok();

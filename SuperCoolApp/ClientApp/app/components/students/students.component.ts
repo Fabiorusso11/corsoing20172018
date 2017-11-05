@@ -25,6 +25,9 @@ export class StudentsComponent {
                 let student = new Student();
                 student.id = stud.id;
                 student.name = stud.name;
+                student.surname = stud.surname;
+                student.birthPlace = stud.birthPlace;
+                student.numeroMatricola = stud.numeroMatricola;
                 student.dateOfBirth = stud.dateOfBirth;
                 student.hasChanges = false;
                 studentList.push(student);
@@ -52,6 +55,17 @@ export class StudentsComponent {
         }
     }
 
+    Delete(id: number): void {
+
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let url = this.baseUrl + 'api/students?id='+id;
+        this.http.delete(url, { headers: headers }).subscribe(data => {
+            this.refreshData();
+        }, error => console.error(error));
+
+    }
+
 
     async putData(): Promise<void> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -70,15 +84,15 @@ export class StudentsComponent {
                     }
                 }
                 else {
-                    if (student.deleted) {
+                    /*if (student.deleted) {
                         let url = this.baseUrl + 'api/students?id=' + student.id;
                         let call = this.http.delete(url, { headers: headers });
                         serverCalls.push(call);
-                    }
-                    else {
+                    }*/
+                    //else {
                         let call = this.http.post(this.baseUrl + 'api/students', json, { headers: headers });
                         serverCalls.push(call);
-                    }
+                    //}
 
                 }
             }
@@ -117,9 +131,12 @@ export class StudentsComponent {
 }
 
 class Student {
-    id: number;
 
+    id: number;
     private _name: string = "";
+    private _surname: string = ""; 
+    private _birthPlace: string = ""; 
+    private _numeroMatricola: string = ""; 
     private _dateOfBirth: Date;
     public hasChanges: boolean;
     public deleted: boolean = false;
@@ -131,6 +148,33 @@ class Student {
         this._name = n;
         this.hasChanges = true;
         console.log("set name");
+    }
+
+    get surname(): string {
+        return this._surname;
+    }
+    set surname(n: string) {
+        this._surname = n;
+        this.hasChanges = true;
+        console.log("set surname");
+    }
+
+    get numeroMatricola(): string {
+        return this._numeroMatricola;
+    }
+    set numeroMatricola(n: string) {
+        this._numeroMatricola = n;
+        this.hasChanges = true;
+        console.log("set numeroMatricola");
+    }
+
+    get birthPlace(): string {
+        return this._birthPlace;
+    }
+    set birthPlace(n: string) {
+        this._birthPlace = n;
+        this.hasChanges = true;
+        console.log("set birthPlace");
     }
 
     get dateOfBirth(): Date {
@@ -146,6 +190,9 @@ class Student {
         return {
             id: this.id,
             name: this._name,
+            surname: this._surname,
+            birthPlace: this._birthPlace,
+            numeroMatricola: this._numeroMatricola,
             dateOfBirth: this._dateOfBirth,
         };
     };

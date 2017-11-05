@@ -1,0 +1,39 @@
+<h2>Lista degli Insegnanti <button (click)="addNewTeacher()"> + </button></h2>
+
+<p *ngIf="!teachers"><em>Attendere prego...</em></p>
+
+<div class="teacher-home">
+    <div class="teachers-list" *ngIf="teachers">
+        <div *ngFor="let teach of teachers"
+            [class.selected]="teach === selectedTeacher"
+            (click)="onSelect(teach)"
+             
+             >
+            <span class="badge">{{teach.id || '-' }}</span> {{teach.name}} {{teach.surname}} <span>{{teach.hasChanges?'*':''}}</span><span class="badge" style="float: right;" (click)="Delete(teach.id)">Elimina</span>
+        </div>
+    </div>
+    <div *ngIf="selectedTeacher" class="teacher-detail">
+        <h2 *ngIf="selectedTeacher.id > 0">{{selectedTeacher.name}} ({{selectedTeacher.id}})</h2>
+        <h2 *ngIf="!selectedTeacher.id">Nuovo Insegnante</h2>
+        <div>
+            <label>Nome: </label>
+            <input [(ngModel)]="selectedTeacher.name" placeholder="name" />
+        </div>
+        <div>
+            <label>Cognome: </label>
+            <input [(ngModel)]="selectedTeacher.surname" placeholder="surname" />
+        </div>
+        <div>
+            <label>Materia di Insegnamento: </label>
+            <input [(ngModel)]="selectedTeacher.insegnamento" placeholder="insegnamento" />
+        </div>
+        <div>
+            <label>Data di Nascita: </label>
+            <input type="datetime-local" [(ngModel)]="selectedTeacher.dateOfBirth" placeholder="birth" />
+        </div>
+    </div>
+</div>
+
+<div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
+    <span class='glyphicon glyphicon-floppy-disk'></span>
+</div>

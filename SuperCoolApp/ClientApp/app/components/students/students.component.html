@@ -1,31 +1,43 @@
-<h1>Students List <button (click)="addNewStudent()"> + </button></h1>
+<h2>Lista degli Studenti <button (click)="addNewStudent()"> + </button></h2>
 
-<p *ngIf="!students"><em>Loading...</em></p>
+<p *ngIf="!students"><em>Attendere prego...</em></p>
 
 <div class="student-home">
     <div class="students-list" *ngIf="students">
         <div *ngFor="let stud of students"
             [class.selected]="stud === selectedStudent"
             (click)="onSelect(stud)"
-             [hidden]="stud.deleted"
+             
              >
-            <span class="badge">{{stud.id || '-' }}</span> {{stud.name}} <span>{{stud.hasChanges?'*':''}}</span><span class="badge" style="float: right;" (click)="delete(stud)">delete</span>
+            <span class="badge">{{stud.id || '-' }}</span> {{stud.name}} {{stud.surname}} <span>{{stud.hasChanges?'*':''}}</span><span class="badge" style="float: right;" (click)="Delete(stud.id)">Elimina</span>
         </div>
     </div>
     <div *ngIf="selectedStudent" class="student-detail">
         <h2 *ngIf="selectedStudent.id > 0">{{selectedStudent.name}} ({{selectedStudent.id}})</h2>
-        <h2 *ngIf="!selectedStudent.id">New Student</h2>
+        <h2 *ngIf="!selectedStudent.id">Nuovo Studente</h2>
         <div>
-            <label>Name: </label>
+            <label>Nome: </label>
             <input [(ngModel)]="selectedStudent.name" placeholder="name" />
         </div>
         <div>
-            <label>Date Of Birth: </label>
-            <input [(ngModel)]="selectedStudent.dateOfBirth" placeholder="birth" />
+            <label>Cognome: </label>
+            <input [(ngModel)]="selectedStudent.surname" placeholder="surname" />
+        </div>
+        <div>
+            <label>Data di Nascita: </label>
+            <input type="datetime-local" [(ngModel)]="selectedStudent.dateOfBirth" placeholder="birth" />
+        </div>
+        <div>
+            <label>Luogo di Nascita: </label>
+            <input [(ngModel)]="selectedStudent.birthPlace" placeholder="birthPlace" />
+        </div>
+        <div>
+            <label>Matricola: </label>
+            <input [(ngModel)]="selectedStudent.numeroMatricola" placeholder="numero Matricola" />
         </div>
     </div>
 </div>
 
 <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" (click)="saveChanges()">
-    <span>SAVE</span>
+    <span class='glyphicon glyphicon-floppy-disk'></span>
 </div>
